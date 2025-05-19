@@ -8,7 +8,7 @@
 import Foundation
 
 struct Trade {
-    let id: UUID
+    let id: Int
     let side: Side
     let quantity: Double
     let timestamp: Date

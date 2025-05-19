@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct OrderBookEntry {
-    var id: Int
+struct OrderBookEntry: Identifiable {
+    var id: Int64
     var side: Side
     var price: Double
     var quantity: Int

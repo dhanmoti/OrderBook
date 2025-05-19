@@ -7,17 +7,19 @@
 
 // OrderBookMessage.swift
 struct OrderBookMessage: Decodable {
-//    let table: String
-//    let action: String
+    let table: String
+    let action: String
     let data: [OrderBookRawEntry]
 }
 
 struct OrderBookRawEntry: Decodable {
-    let id: Int
     let symbol: String
+    let id: Int64
     let side: String
     let size: Int?
     let price: Double?
+    let timestamp: String?
+    let transactTime: String?
 }
 
 /*

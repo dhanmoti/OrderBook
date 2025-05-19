@@ -7,9 +7,13 @@
 
 import SwiftUICore
 
-struct OrderBookRow: View {
+struct OrderBookRow: View, Equatable {
     let entry: OrderBookEntry
-    
+
+    static func == (lhs: OrderBookRow, rhs: OrderBookRow) -> Bool {
+        lhs.entry == rhs.entry
+    }
+
     var body: some View {
         HStack {
             Text(String(format: "%.2f", entry.price))
@@ -26,7 +30,7 @@ struct OrderBookRow: View {
             GeometryReader { geo in
                 let barWidth = min(CGFloat(entry.quantity) / 10000, 1.0) * geo.size.width
                 RoundedRectangle(cornerRadius: 4)
-                    .fill((entry.side == .buy ? Color.green.opacity(0.2) : Color.red.opacity(0.2)))
+                    .fill((entry.side == .buy ? Color.green.opacity(0.1) : Color.red.opacity(0.1)))
                     .frame(width: barWidth)
                     .alignmentGuide(.leading) { _ in 0 }
             }

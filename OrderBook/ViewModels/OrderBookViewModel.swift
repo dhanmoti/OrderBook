@@ -13,6 +13,11 @@ class OrderBookViewModel: ObservableObject {
     @Published private(set) var bids: [OrderBookEntry] = []
     @Published private(set) var asks: [OrderBookEntry] = []
     
+    private var pendingBids: [OrderBookEntry]?
+    private var pendingAsks: [OrderBookEntry]?
+    private let batchInterval: TimeInterval = 0.05 
+    private var isBatchingUpdates = false
+    
     private var connection: WebSocketConnection?
     private let decoder = JSONDecoder()
 
@@ -29,6 +34,8 @@ class OrderBookViewModel: ObservableObject {
         
         do {
             let decoded = try decoder.decode(OrderBookMessage.self, from: data)
+            
+            guard decoded.table == "orderBookL2", decoded.action == "partial" || decoded.action == "insert" else { return }
                         
             var newBids: [OrderBookEntry] = []
             var newAsks: [OrderBookEntry] = []
@@ -54,17 +61,15 @@ class OrderBookViewModel: ObservableObject {
                 }
             }
             
-            // ✅ Ensure all published changes happen on main thread
-            DispatchQueue.main.async {
-                self.bids = newBids.sorted { $0.price > $1.price }.prefix(20).map { $0 }
-                self.asks = newAsks.sorted { $0.price < $1.price }.prefix(20).map { $0 }
-            }
+            let sortedBids = newBids.sorted { $0.price > $1.price }.prefix(20).map { $0 }
+            let sortedAsks = newAsks.sorted { $0.price < $1.price }.prefix(20).map { $0 }
+            handleWebSocketUpdate(newBids: sortedBids, newAsks: sortedAsks)
             
         } catch {
             print("Decode error: \(error)")
         }
     }
-    
+
 
     func subscribeToOrderBook() {
         let json: [String: Any] = [
@@ -79,6 +84,28 @@ class OrderBookViewModel: ObservableObject {
 
     func disconnect() {
         connection?.disconnect()
+    }
+}
+
+// MARK: - batching updates
+extension OrderBookViewModel {
+    func handleWebSocketUpdate(newBids: [OrderBookEntry], newAsks: [OrderBookEntry]) {
+        if isBatchingUpdates {
+            pendingBids = newBids
+            pendingAsks = newAsks
+        } else {
+            isBatchingUpdates = true
+            pendingBids = newBids
+            pendingAsks = newAsks
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + batchInterval) {
+                self.bids = self.pendingBids ?? self.bids
+                self.asks = self.pendingAsks ?? self.asks
+                self.pendingBids = nil
+                self.pendingAsks = nil
+                self.isBatchingUpdates = false
+            }
+        }
     }
 }
 

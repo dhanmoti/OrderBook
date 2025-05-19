@@ -9,7 +9,7 @@ import SwiftUI
 
 struct OrderBookView: View {
     @StateObject private var viewModel = OrderBookViewModel()
-    
+
     var body: some View {
         VStack {
             HStack {
@@ -20,25 +20,31 @@ struct OrderBookView: View {
             }
             .padding(.horizontal)
 
-            HStack(spacing: 16) {
-                // BUY orders (bids)
+            HStack(alignment: .top, spacing: 16) {
+                // Buy orders
                 VStack(alignment: .leading) {
-                    Text("Buy Orders")
+                    Text("Buy")
                         .font(.headline)
-                    List(viewModel.bids, id: \.id) { entry in
-                        OrderBookRow(entry: entry)
+                    ScrollView {
+                        LazyVStack(alignment: .leading, spacing: 2) {
+                            ForEach(viewModel.bids) { entry in
+                                OrderBookRow(entry: entry)
+                            }
+                        }
                     }
-                    .listStyle(.plain)
                 }
 
-                // SELL orders (asks)
+                // Sell orders
                 VStack(alignment: .leading) {
-                    Text("Sell Orders")
+                    Text("Sell")
                         .font(.headline)
-                    List(viewModel.asks, id: \.id) { entry in
-                        OrderBookRow(entry: entry)
+                    ScrollView {
+                        LazyVStack(alignment: .leading, spacing: 2) {
+                            ForEach(viewModel.asks) { entry in
+                                OrderBookRow(entry: entry)
+                            }
+                        }
                     }
-                    .listStyle(.plain)
                 }
             }
             .padding(.horizontal)

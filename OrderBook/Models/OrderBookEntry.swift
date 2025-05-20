@@ -12,6 +12,9 @@ struct OrderBookEntry: Identifiable {
     var side: Side
     var price: Double
     var quantity: Int
+    var totalPrice: Double {
+        price * Double(quantity)
+    }
 }
 
 extension OrderBookEntry: Equatable {

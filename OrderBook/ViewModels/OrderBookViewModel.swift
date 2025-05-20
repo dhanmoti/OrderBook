@@ -13,9 +13,12 @@ class OrderBookViewModel: ObservableObject {
     @Published private(set) var bids: [OrderBookEntry] = []
     @Published private(set) var asks: [OrderBookEntry] = []
     
+    private(set) var maxBidPrice: Double = 0.0
+    private(set) var maxAskPrice: Double = 0.0
+    
     private var pendingBids: [OrderBookEntry]?
     private var pendingAsks: [OrderBookEntry]?
-    private let batchInterval: TimeInterval = 0.15 
+    private let batchInterval: TimeInterval = 0.05
     private var isBatchingUpdates = false
     
     private var connection: WebSocketConnection?
@@ -105,6 +108,10 @@ extension OrderBookViewModel {
             DispatchQueue.main.asyncAfter(deadline: .now() + batchInterval) {
                 self.bids = self.pendingBids ?? self.bids
                 self.asks = self.pendingAsks ?? self.asks
+                
+                self.maxBidPrice = self.bids.first?.totalPrice ?? 0
+                self.maxAskPrice = self.asks.last?.totalPrice ?? 0
+                
                 self.pendingBids = nil
                 self.pendingAsks = nil
                 self.isBatchingUpdates = false

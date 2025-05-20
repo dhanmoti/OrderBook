@@ -29,22 +29,24 @@ struct OrderBookView: View {
                     ScrollView {
                         LazyVStack(alignment: .leading, spacing: 2) {
                             ForEach(viewModel.bids) { entry in
-                                OrderBookRow(entry: entry)
+                                OrderBookRow(entry: entry, maxPrice: viewModel.maxBidPrice)
                             }
                         }
                     }
                 }
+                .padding(0)
 
                 // Sell orders
                 VStack(alignment: .leading) {
                     ScrollView {
                         LazyVStack(alignment: .leading, spacing: 2) {
                             ForEach(viewModel.asks) { entry in
-                                OrderBookRow(entry: entry)
+                                OrderBookRow(entry: entry, maxPrice: viewModel.maxAskPrice)
                             }
                         }
                     }
                 }
+                .padding(0)
             }
             .padding(.horizontal)
         }

@@ -49,11 +49,11 @@ struct OrderBookView: View {
             }
             .padding(.horizontal)
         }
-        .onAppear {
-            viewModel.connect()
-        }
-        .onDisappear {
-            viewModel.disconnect()
-        }
+//        .onAppear {
+//            viewModel.connect()
+//        }
+//        .onDisappear {
+//            viewModel.disconnect()
+//        }
     }
 }

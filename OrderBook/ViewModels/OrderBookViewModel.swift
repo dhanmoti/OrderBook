@@ -85,6 +85,10 @@ class OrderBookViewModel: ObservableObject {
     func disconnect() {
         connection?.disconnect()
     }
+    
+    func connect() {
+        connection?.connect()
+    }
 }
 
 // MARK: - batching updates

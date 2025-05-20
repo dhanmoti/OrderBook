@@ -64,8 +64,8 @@ class OrderBookViewModel: ObservableObject {
                 }
             }
             
-            let sortedBids = newBids.sorted { $0.price > $1.price }.prefix(20).map { $0 }
-            let sortedAsks = newAsks.sorted { $0.price < $1.price }.prefix(20).map { $0 }
+            let sortedBids = newBids.sorted { $0.totalPrice < $1.totalPrice }.prefix(20).map { $0 }
+            let sortedAsks = newAsks.sorted { $0.totalPrice < $1.totalPrice }.prefix(20).map { $0 }
             handleWebSocketUpdate(newBids: sortedBids, newAsks: sortedAsks)
             
         } catch {
@@ -109,7 +109,7 @@ extension OrderBookViewModel {
                 self.bids = self.pendingBids ?? self.bids
                 self.asks = self.pendingAsks ?? self.asks
                 
-                self.maxBidPrice = self.bids.first?.totalPrice ?? 0
+                self.maxBidPrice = self.bids.last?.totalPrice ?? 0
                 self.maxAskPrice = self.asks.last?.totalPrice ?? 0
                 
                 self.pendingBids = nil

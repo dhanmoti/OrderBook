@@ -15,7 +15,7 @@ class OrderBookViewModel: ObservableObject {
     
     private var pendingBids: [OrderBookEntry]?
     private var pendingAsks: [OrderBookEntry]?
-    private let batchInterval: TimeInterval = 0.05 
+    private let batchInterval: TimeInterval = 0.15 
     private var isBatchingUpdates = false
     
     private var connection: WebSocketConnection?

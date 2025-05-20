@@ -12,19 +12,20 @@ struct OrderBookView: View {
 
     var body: some View {
         VStack {
-            HStack {
-                Text("Order Book")
-                    .font(.title2)
-                    .bold()
+            HStack(spacing: 16) {
+                Text("Qty")
                 Spacer()
+                Text("Price (USD)")
+                Spacer()
+                Text("Qty")
             }
-            .padding(.horizontal)
-
+            
+            // Separator line
+            Color.black.opacity(0.2).frame(height: 0.5)
+            
             HStack(alignment: .top, spacing: 16) {
                 // Buy orders
                 VStack(alignment: .leading) {
-                    Text("Buy")
-                        .font(.headline)
                     ScrollView {
                         LazyVStack(alignment: .leading, spacing: 2) {
                             ForEach(viewModel.bids) { entry in
@@ -36,8 +37,6 @@ struct OrderBookView: View {
 
                 // Sell orders
                 VStack(alignment: .leading) {
-                    Text("Sell")
-                        .font(.headline)
                     ScrollView {
                         LazyVStack(alignment: .leading, spacing: 2) {
                             ForEach(viewModel.asks) { entry in

@@ -31,6 +31,10 @@ class OrderBookViewModel: ObservableObject {
         self.connection = ws
         ws.connect()
     }
+    
+    deinit {
+        self.connection?.disconnect()
+    }
 
     private func handle(message: String) {
         guard let data = message.data(using: .utf8) else { return }

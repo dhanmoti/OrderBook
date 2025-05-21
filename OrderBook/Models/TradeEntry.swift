@@ -8,9 +8,7 @@
 import Foundation
 
 struct TradeEntry: Identifiable {
-    var id: String {
-        side.rawValue + "_\(timestamp.timeIntervalSince1970)" + "_\(price)" + "_\(quantity)"
-    }
+    var id: String
     let side: Side
     let quantity: Int
     let timestamp: Date

@@ -43,7 +43,8 @@ class RecentTradesViewModel: ObservableObject {
                     if let timestamp = dateFormatter.date(from: trade.timestamp),
                        let side = Side(rawValue: trade.side.lowercased()) {
                         
-                        let trade = TradeEntry(side: side,
+                        let trade = TradeEntry(id: trade.trdMatchID,
+                                               side: side,
                                                quantity: trade.size ?? 0,
                                                timestamp: timestamp,
                                                price: trade.price)

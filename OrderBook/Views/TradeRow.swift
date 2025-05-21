@@ -15,19 +15,21 @@ struct TradeRow: View {
         HStack {
             Text(String(format: "%.2f", trade.price))
                 .foregroundColor(trade.side == .buy ? .green : .red)
-                .frame(width: 100, alignment: .leading)
+                .frame(width: 100)
 
             Spacer()
 
             Text("\(Int(trade.quantity))")
-                .foregroundColor(.primary)
+                .foregroundColor(trade.side == .buy ? .green : .red)
+                .frame(width: 100)
+            
+            Spacer()
 
             Text(trade.timestamp.formatted(.dateTime.hour().minute().second()))
-                .foregroundColor(.gray)
+                .foregroundColor(trade.side == .buy ? .green : .red).opacity(0.6)
                 .font(.caption)
-                .frame(width: 80, alignment: .trailing)
+                .frame(width: 100)
         }
-        .padding(6)
         .background(flash ? (trade.side == .buy ? Color.green.opacity(0.15) : Color.red.opacity(0.15)) : Color.clear)
         .onAppear {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {

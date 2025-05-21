@@ -17,9 +17,10 @@ struct RawTradeEntry: Codable {
     let side: String
     let size: Int?
     let price: Double
+    let trdMatchID: String
 
     enum CodingKeys: String, CodingKey {
-        case timestamp, symbol, side, size, price
+        case timestamp, symbol, side, size, price, trdMatchID
     }
 }
 

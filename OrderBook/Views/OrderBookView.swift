@@ -12,6 +12,11 @@ struct OrderBookView: View {
 
     var body: some View {
         VStack {
+            Text("Order Book")
+                .font(.title2)
+                .bold()
+                .padding(.horizontal)
+            
             HStack(spacing: 16) {
                 Text("Qty")
                 Spacer()

@@ -13,7 +13,7 @@ struct TradeRow: View {
 
     var body: some View {
         HStack {
-            Text(String(format: "%.2f", trade.price))
+            Text(String(format: "%.1f", trade.price))
                 .foregroundColor(trade.side == .buy ? .green : .red)
                 .frame(width: 100)
 

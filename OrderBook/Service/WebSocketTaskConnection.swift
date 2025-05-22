@@ -49,11 +49,9 @@ class WebSocketTaskConnection: NSObject, WebSocketConnection, URLSessionWebSocke
         // Invalidate the URLSession to break the strong reference cycle
         // and allow all tasks to complete or be cancelled.
         urlSession.invalidateAndCancel()
-        print("WebSocketTaskConnection deinitialized.")
     }
     
     func invalidateAndCancel() {
-        print("Invalidating and canceling URLSession...")
         urlSession.invalidateAndCancel()
     }
 

@@ -16,9 +16,13 @@ This project is a real-time trading interface built with **SwiftUI** and **Combi
 
 ## 📸 Screenshots
 
-| Order Book | Recent Trades |
-|------------|----------------|
-| *(screenshot here)* | *(screenshot here)* |
+| Order Book |
+|------------|
+|![Screenshot](Screenshots/OrderBook.png)|
+
+| Recent Trades |
+|----------------|
+|![Screenshot](Screenshots/RecentTrades.png)|
 
 ---
 

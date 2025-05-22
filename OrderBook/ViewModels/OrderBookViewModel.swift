@@ -33,7 +33,14 @@ class OrderBookViewModel: ObservableObject {
     }
     
     deinit {
-        self.connection?.disconnect()
+        // Break the delegate cycle first
+        self.connection?.delegate = nil
+        // Now, invalidate the URLSession to break its strong reference to self (the delegate)
+        // This will then allow WebSocketTaskConnection's reference count to drop to zero
+        // which will then allow it to deallocate.
+        self.connection?.invalidateAndCancel()
+        self.connection = nil // Finally, nil out the strong reference from the ViewModel
+        print("OrderBookViewModel deinitialized.")
     }
 
     private func handle(message: String) {
@@ -109,7 +116,9 @@ extension OrderBookViewModel {
             pendingBids = newBids
             pendingAsks = newAsks
 
-            DispatchQueue.main.asyncAfter(deadline: .now() + batchInterval) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + batchInterval) { [weak self] in
+                guard let self else { return }
+                
                 self.bids = self.pendingBids ?? self.bids
                 self.asks = self.pendingAsks ?? self.asks
                 

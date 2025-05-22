@@ -25,7 +25,7 @@ class OrderBookViewModel: ObservableObject {
     private let decoder = JSONDecoder()
 
     init() {
-        let url = URL(string: "wss://www.bitmex.com/realtime")!
+        let url = URL(string: Constants.API.bitmexWebSocketURL)!
         let ws = WebSocketTaskConnection(url: url)
         ws.delegate = self
         self.connection = ws
